@@ -34,7 +34,7 @@
                     )
                     @*<input type="text" class="search form-control" placeholder="search for image by tag..." />*@
                     <div class="input-group-append">
-                        <button class="input-group-text bg-warning">
+                        <button class="input-group-text bg-warning" onclick="searchTag()">
                             <i class="fas fa-search mx-3"></i>
                         </button>
                     </div>
@@ -49,5 +49,12 @@
         </div>
     </div>
 </div>
+
+<script>
+    function searchTag() {
+        let tag = $("#completeSearch").val();
+        window.location.href = "/Home/Tag/" + tag;
+    }
+</script>
 
 @Html.Partial("Modals/UploadModal")

@@ -18,7 +18,7 @@
                             .Batch(false)
                         )
                         .Multiple(false)
-                        .Events(e => e.Upload("onImageUpload").Success("test"))
+                        .Events(e => e.Upload("onImageUpload").Success("onImageSuccess").Progress("onImageProgress").Error("onImageError"))
                     )
                 </div>
 
@@ -53,6 +53,8 @@
 
 <script>
     function onImageUpload(e) {
+        Notiflix.Loading.Dots('Uploading...');
+
         let _allowedExtensions = [".jpg", ".jpeg", ".png", ".gif"];
         let _maxSize = 16 * 1024 * 1024; // in Bytes
 
@@ -83,7 +85,49 @@
         $("#uploadImage").data("kendoUpload").upload();
     }
 
-    function test(e) {
-        console.log(e.response);
+    function onImageSuccess(e) {
+        Notiflix.Loading.Remove();
+
+        if (e.response == -1) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Invalid File',
+                text: 'Please upload a jpeg, jpg, png, or gif file!'
+            })
+        } else if (e.response == -2) {
+            Swal.fire({
+                icon: 'error',
+                title: 'File Size Exceeded',
+                text: 'Your image has to be under 16 Megabytes!'
+            })
+        } else if (e.response == 0) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Image Uploaded Successfully',
+                text: 'You may find your image in the recently uploaded images or by searching its tag'
+            })
+            $('#modalUpload').modal('hide');
+            $("#completeTags").data("kendoAutoComplete").dataSource.read();
+            $("#completeSearch").data("kendoAutoComplete").dataSource.read();
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Unexpected Error',
+                text: 'Please try again. If this issue persists, use a different file'
+            })
+        }
+    }
+
+    function onImageProgress(e) {
+        Notiflix.Loading.Change(e.percentComplete + '% uploaded...');
+    }
+
+    function onImageError() {
+        Notiflix.Loading.Remove();
+        Swal.fire({
+            icon: 'error',
+            title: 'Unexpected Error',
+            text: 'Please try again. If this issue persists, use a different file'
+        })
     }
 </script>
