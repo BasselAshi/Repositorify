@@ -195,6 +195,12 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Image.cs">
+      <DependentUpon>RepositorifyEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ImageTag.cs">
+      <DependentUpon>RepositorifyEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\RepositorifyEntities.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

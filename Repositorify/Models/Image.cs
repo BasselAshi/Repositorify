@@ -12,16 +12,18 @@ namespace Repositorify.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Tag
+    public partial class Image
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Tag()
+        public Image()
         {
             this.ImageTags = new HashSet<ImageTag>();
         }
     
-        public string Id { get; set; }
-        public System.DateTime DateCreated { get; set; }
+        public int Id { get; set; }
+        public string Uploader { get; set; }
+        public System.DateTime DateUploaded { get; set; }
+        public byte[] ImageData { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ImageTag> ImageTags { get; set; }

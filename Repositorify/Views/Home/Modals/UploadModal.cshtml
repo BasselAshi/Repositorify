@@ -9,51 +9,81 @@
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label>Select an Image: <span class="badge badge-danger">Supported formats are <b>jpg, jpeg, png, gif</b></span></label>
+                    <label>Select an Image: <span class="badge badge-danger">Supported formats are <b>jpg, jpeg, png, gif with 16MB upload limit</b></span></label>
                     @(Html.Kendo().Upload()
                         .Name("uploadImage")
                         .Async(a => a
-                            .Save("Async_Save", "Upload")
-                            .Remove("Async_Remove", "Upload")
+                            .Save("UploadImage", "Home")
                             .AutoUpload(false)
                             .Batch(false)
                         )
+                        .Multiple(false)
+                        .Events(e => e.Upload("onImageUpload").Success("test"))
                     )
                 </div>
 
                 <div class="form-group">
-                    <label>Enter image tags: <span class="badge badge-warning">Using ', ' to separate between tags</span></label>
+                    <label>Enter image tags: <span class="badge badge-warning">Use ', ' to separate between tags</span></label>
                     @(Html.Kendo().AutoComplete()
-                      .Name("completeTags")
-                      .Filter("contains")
-                      .Placeholder("enter tag name...")
-                      .DataSource(source =>
-                      {
-                          source.Read(read =>
+                          .Name("completeTags")
+                          .Filter("contains")
+                          .Placeholder("enter tag name...")
+                          .DataSource(source =>
                           {
-                              read.Action("Tags_Read", "Home").Data("getTextData"); ;
+                              source.Read(read =>
+                              {
+                                  read.Action("Tags_Read", "Home");
+                              })
+                              .ServerFiltering(false);
                           })
-                          .ServerFiltering(false);
-                      })
-                      .DataTextField("Id")
-                      .HtmlAttributes(new { @class = "form-control" })
-                      .Separator(", ")
-                      .ClearButton(false)
-                )
+                          .DataTextField("Id")
+                          .HtmlAttributes(new { @class = "form-control" })
+                          .Separator(", ")
+                          .ClearButton(false)
+                    )
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Upload</button>
+                <button onclick="uploadImage()" type="button" class="btn btn-primary">Upload</button>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-        function getTextData() {
-            return {
-                text: $("#completeTags").val()
-            };
+    function onImageUpload(e) {
+        let _allowedExtensions = [".jpg", ".jpeg", ".png", ".gif"];
+        let _maxSize = 16 * 1024 * 1024; // in Bytes
+
+        if (_allowedExtensions.indexOf(e.files[0].extension) == -1) {
+            // Invalid extension
+            e.preventDefault();
+            Swal.fire({
+                icon: 'error',
+                title: 'Invalid File',
+                text: 'Please upload a jpeg, jpg, png, or gif file!'
+            })
+        } else if (e.files[0].size > _maxSize) {
+            // Size limit
+            e.preventDefault();
+            Swal.fire({
+                icon: 'error',
+                title: 'File Size Exceeded',
+                text: 'Your image has to be under 16 Megabytes!'
+            })
         }
+
+        e.data = {
+            tags: $("#completeTags").val()
+        };
+    }
+
+    function uploadImage() {
+        $("#uploadImage").data("kendoUpload").upload();
+    }
+
+    function test(e) {
+        console.log(e.response);
+    }
 </script>

@@ -24,3 +24,7 @@ a, a:hover {
 .k-autocomplete {
     width: 100%;
 }
+
+.k-action-buttons {
+    display: none;
+}

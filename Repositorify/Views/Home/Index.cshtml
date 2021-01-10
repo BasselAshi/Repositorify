@@ -16,14 +16,30 @@
         <div class="row justify-content-center mt-2">
             <div class="col-lg-4 col-md-8 col-12 text-center">
                 <div class="input-group mb-3">
-                    <input type="text" class="search form-control" placeholder="search for image by tag..." />
+                    @(Html.Kendo().AutoComplete()
+                          .Name("completeSearch")
+                          .Filter("contains")
+                          .Placeholder("search images by tag... i.e., dark")
+                          .DataSource(source =>
+                          {
+                              source.Read(read =>
+                              {
+                                  read.Action("Tags_Read", "Home");
+                              })
+                              .ServerFiltering(false);
+                          })
+                          .DataTextField("Id")
+                          .HtmlAttributes(new { @class = "form-control" })
+                          .ClearButton(false)
+                    )
+                    @*<input type="text" class="search form-control" placeholder="search for image by tag..." />*@
                     <div class="input-group-append">
                         <button class="input-group-text bg-warning">
                             <i class="fas fa-search mx-3"></i>
                         </button>
                     </div>
                 </div>
-            </div>
+            </div>  
         </div>
 
         <div class="row">

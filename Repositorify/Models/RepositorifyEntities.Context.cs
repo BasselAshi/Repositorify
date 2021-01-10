@@ -26,5 +26,7 @@ namespace Repositorify.Models
         }
     
         public virtual DbSet<Tag> Tags { get; set; }
+        public virtual DbSet<Image> Images { get; set; }
+        public virtual DbSet<ImageTag> ImageTags { get; set; }
     }
 }
