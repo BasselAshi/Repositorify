@@ -6,6 +6,17 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+	<!--This bundle was moved by the Telerik VS Extensions for compatibility reasons-->
+	@Scripts.Render("~/bundles/jquery")
+	<link href="https://kendo.cdn.telerik.com/2020.3.1021/styles/kendo.bootstrap-v4.min.css" rel="stylesheet" type="text/css" />
+	<link href="@Url.Content("~/Content/bootstrap.min.css")" rel="stylesheet" type="text/css" />
+	<link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
+	<script src="https://kendo.cdn.telerik.com/2020.3.1021/js/jquery.min.js"></script>
+	<script src="https://kendo.cdn.telerik.com/2020.3.1021/js/jszip.min.js"></script>
+	<script src="https://kendo.cdn.telerik.com/2020.3.1021/js/kendo.all.min.js"></script>
+	<script src="https://kendo.cdn.telerik.com/2020.3.1021/js/kendo.aspnetmvc.min.js"></script>
+	<script src="@Url.Content("~/Scripts/bootstrap.min.js")"></script>
+	<script src="@Url.Content("~/Scripts/kendo.modernizr.custom.js")"></script>
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -35,7 +46,7 @@
         </footer>
     </div>
 
-    @Scripts.Render("~/bundles/jquery")
+    
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 </body>
