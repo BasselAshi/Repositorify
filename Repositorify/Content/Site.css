@@ -7,10 +7,13 @@ body {
     background-position: 50% 0;
 }
 
+h1, h2, h3, h4, h5, h6 {
+    color: white;
+}
+
 .header {
     font-family: 'Lobster', sans-serif;
     font-size: 6em;
-    color: white;
 }
 
 .search {

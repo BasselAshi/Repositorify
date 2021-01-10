@@ -231,6 +231,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Images\background.jpg" />
     <Content Include="Content\notiflix.css" />
+    <Content Include="Content\splide.min.css" />
     <Content Include="Scripts\kendo.modernizr.custom.js" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -294,6 +295,7 @@
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />
     <Content Include="Scripts\popper.min.js" />
+    <Content Include="Scripts\splide.min.js" />
     <Content Include="Scripts\src\index.js" />
     <Content Include="Scripts\src\methods\defaults.js" />
     <Content Include="Scripts\src\methods\destroy.js" />

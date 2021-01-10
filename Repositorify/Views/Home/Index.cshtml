@@ -34,7 +34,7 @@
                     )
                     @*<input type="text" class="search form-control" placeholder="search for image by tag..." />*@
                     <div class="input-group-append">
-                        <button class="input-group-text bg-warning" onclick="searchTag()">
+                        <button id="btnSearchTag" class="input-group-text bg-warning" onclick="searchTag()">
                             <i class="fas fa-search mx-3"></i>
                         </button>
                     </div>
@@ -51,6 +51,19 @@
 </div>
 
 <script>
+    $(document).ready(function () {
+        var input = document.getElementById("completeSearch");
+        input.addEventListener("keyup", function (event) {
+            // Number 13 is the "Enter" key on the keyboard
+            if (event.keyCode === 13) {
+                // Cancel the default action, if needed
+                event.preventDefault();
+                // Trigger the button element with a click
+                document.getElementById("btnSearchTag").click();
+            }
+        });
+    });
+
     function searchTag() {
         let tag = $("#completeSearch").val();
         window.location.href = "/Home/Tag/" + tag;
