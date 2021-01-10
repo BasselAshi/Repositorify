@@ -6,10 +6,10 @@
     <edmx:Diagrams>
       <Diagram DiagramId="64ce66dc1f824850a8a8f64d0a0adfbd" Name="Diagram1">
         <EntityTypeShape EntityType="RepositorifyModel.Tag" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="RepositorifyModel.Image" Width="1.5" PointX="3.375" PointY="0.75" />
         <EntityTypeShape EntityType="RepositorifyModel.ImageTag" Width="1.5" PointX="5.625" PointY="0.75" />
-        <AssociationConnector Association="RepositorifyModel.FK_ImageTags_Images" />
         <AssociationConnector Association="RepositorifyModel.FK_ImageTags_Tags" />
+        <EntityTypeShape EntityType="RepositorifyModel.Image" Width="1.5" PointX="0.75" PointY="3.875" />
+        <AssociationConnector Association="RepositorifyModel.FK_ImageTags_Images" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

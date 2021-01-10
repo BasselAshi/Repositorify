@@ -23,7 +23,7 @@ namespace Repositorify.Models
         public int Id { get; set; }
         public string Uploader { get; set; }
         public System.DateTime DateUploaded { get; set; }
-        public byte[] ImageData { get; set; }
+        public string ImageData { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ImageTag> ImageTags { get; set; }

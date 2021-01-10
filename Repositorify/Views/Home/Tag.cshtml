@@ -1,0 +1,12 @@
+﻿@model List<Repositorify.Models.Image>
+
+@{
+    ViewBag.Title = "Tag";
+}
+
+<h2>Tag</h2>
+
+@foreach (var image in Model)
+{
+    <img src="data:image/png;base64,@image.ImageData" />
+}

@@ -40,7 +40,7 @@ namespace Repositorify.Controllers.Operations
             {
                 var existingTags = context.Tags.Select(t => t.Id).ToList();
                 var newTags = tags.Where(t => !existingTags.Contains(t)).ToList();
-                var listNewTags =  (from t in newTags
+                var listNewTags = (from t in newTags
                                    select new Tag
                                    {
                                        Id = t,
@@ -51,7 +51,7 @@ namespace Repositorify.Controllers.Operations
             }
         }
 
-        private byte[] ConvertStreamToByte(Stream stream)
+        private string ConvertStreamToBase64(Stream stream)
         {
             byte[] data;
             using (Stream inputStream = stream)
@@ -63,12 +63,13 @@ namespace Repositorify.Controllers.Operations
                     inputStream.CopyTo(memoryStream);
                 }
                 data = memoryStream.ToArray();
+                var b64 = Convert.ToBase64String(data);
 
-                return data;
+                return b64;
             }
         }
 
-        public void CreateImage(byte[] data, List<string> tags)
+        public void CreateImage(string data, List<string> tags)
         {
             using (RepositorifyEntities context = new RepositorifyEntities())
             {
@@ -104,14 +105,24 @@ namespace Repositorify.Controllers.Operations
                 CreateNewTags(tagsList);
 
                 // Save image in database
-                var bytes = ConvertStreamToByte(file.InputStream);
-                CreateImage(bytes, tagsList);
+                var base64 = ConvertStreamToBase64(file.InputStream);
+                CreateImage(base64, tagsList);
 
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 return false;
             }
             return true;
+        }
+        public List<Image> GetImages(string tag)
+        {
+            using (RepositorifyEntities context = new RepositorifyEntities())
+            {
+                var contextTag = context.Tags.Find(tag);
+                var images = context.ImageTags.Where(i => i.TagId.Equals(tag)).Select(i => i.Image).ToList();
+                return images;
+            }
         }
     }
 }

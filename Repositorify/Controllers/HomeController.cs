@@ -19,7 +19,8 @@ namespace Repositorify.Controllers
 
         public ActionResult Tag(string id)
         {
-
+            var images = Service.GetImages(id);
+            return View(images);
         }
 
         public JsonResult Tags_Read()

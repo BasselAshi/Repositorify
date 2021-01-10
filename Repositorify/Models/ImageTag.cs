@@ -18,7 +18,7 @@ namespace Repositorify.Models
         public int ImageId { get; set; }
         public string TagId { get; set; }
     
-        public virtual Image Image { get; set; }
         public virtual Tag Tag { get; set; }
+        public virtual Image Image { get; set; }
     }
 }
