@@ -1,0 +1,59 @@
+﻿<div class="modal fade" id="modalUpload" tabindex="-1" role="dialog" aria-labelledby="modalUploadLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalUploadLabel">Upload an Image</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Select an Image: <span class="badge badge-danger">Supported formats are <b>jpg, jpeg, png, gif</b></span></label>
+                    @(Html.Kendo().Upload()
+                        .Name("uploadImage")
+                        .Async(a => a
+                            .Save("Async_Save", "Upload")
+                            .Remove("Async_Remove", "Upload")
+                            .AutoUpload(false)
+                            .Batch(false)
+                        )
+                    )
+                </div>
+
+                <div class="form-group">
+                    <label>Enter image tags: <span class="badge badge-warning">Using ', ' to separate between tags</span></label>
+                    @(Html.Kendo().AutoComplete()
+                      .Name("completeTags")
+                      .Filter("contains")
+                      .Placeholder("enter tag name...")
+                      .DataSource(source =>
+                      {
+                          source.Read(read =>
+                          {
+                              read.Action("Tags_Read", "Home").Data("getTextData"); ;
+                          })
+                          .ServerFiltering(false);
+                      })
+                      .DataTextField("Id")
+                      .HtmlAttributes(new { @class = "form-control" })
+                      .Separator(", ")
+                      .ClearButton(false)
+                )
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Upload</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+        function getTextData() {
+            return {
+                text: $("#completeTags").val()
+            };
+        }
+</script>

@@ -18,18 +18,20 @@
                 <div class="input-group mb-3">
                     <input type="text" class="search form-control" placeholder="search for image by tag..." />
                     <div class="input-group-append">
-                        <button class="input-group-text">
+                        <button class="input-group-text bg-warning">
                             <i class="fas fa-search mx-3"></i>
                         </button>
                     </div>
                 </div>
             </div>
         </div>
-        
+
         <div class="row">
             <div class="col text-center">
-                <a href="#test">or click here to upload an image</a>
+                <a href="#upload" data-toggle="modal" data-target="#modalUpload">or click here to upload an image</a>
             </div>
         </div>
     </div>
 </div>
+
+@Html.Partial("Modals/UploadModal")

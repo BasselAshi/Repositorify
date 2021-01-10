@@ -20,3 +20,7 @@ body {
 a, a:hover {
     color: white;
 }
+
+.k-autocomplete {
+    width: 100%;
+}
