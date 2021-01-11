@@ -405,6 +405,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Uploads\Images\" />
+    <Folder Include="Uploads\Thumbnails\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

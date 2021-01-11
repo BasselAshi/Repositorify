@@ -51,8 +51,9 @@ namespace Repositorify.Controllers
                 // Limit exceeded
                 return Content("-2");
             }
-
-            var success = Service.UploadImage(uploadImage, tags);
+            
+            var serverPath = Server.MapPath("~/Uploads");
+            var success = Service.SaveImage(serverPath, uploadImage, tags);
             return Content(success ? "0" : "-3");
         }
     }

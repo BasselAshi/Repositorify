@@ -20,10 +20,12 @@ namespace Repositorify.Models
             this.ImageTags = new HashSet<ImageTag>();
         }
     
-        public int Id { get; set; }
+        public string Id { get; set; }
         public string Uploader { get; set; }
         public System.DateTime DateUploaded { get; set; }
-        public string ImageData { get; set; }
+        public bool Enabled { get; set; }
+        public Nullable<int> Size { get; set; }
+        public string Extension { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ImageTag> ImageTags { get; set; }

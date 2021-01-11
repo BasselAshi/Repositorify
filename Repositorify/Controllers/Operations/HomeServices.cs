@@ -51,34 +51,35 @@ namespace Repositorify.Controllers.Operations
             }
         }
 
-        private string ConvertStreamToBase64(Stream stream)
-        {
-            byte[] data;
-            using (Stream inputStream = stream)
-            {
-                MemoryStream memoryStream = inputStream as MemoryStream;
-                if (memoryStream == null)
-                {
-                    memoryStream = new MemoryStream();
-                    inputStream.CopyTo(memoryStream);
-                }
-                data = memoryStream.ToArray();
-                var b64 = Convert.ToBase64String(data);
+        //private string ConvertStreamToBase64(Stream stream)
+        //{
+        //    byte[] data;
+        //    using (Stream inputStream = stream)
+        //    {
+        //        MemoryStream memoryStream = inputStream as MemoryStream;
+        //        if (memoryStream == null)
+        //        {
+        //            memoryStream = new MemoryStream();
+        //            inputStream.CopyTo(memoryStream);
+        //        }
+        //        data = memoryStream.ToArray();
+        //        var b64 = Convert.ToBase64String(data);
 
-                return b64;
-            }
-        }
+        //        return b64;
+        //    }
+        //}
 
-        public void CreateImage(string data, List<string> tags)
+        public string CreateImage(List<string> tags, int sizeBytes, string extension)
         {
             using (RepositorifyEntities context = new RepositorifyEntities())
             {
                 var image = new Image()
                 {
-                    Id = 0,
-                    ImageData = data,
+                    Size = sizeBytes,
+                    Extension = extension,
                     DateUploaded = DateTime.Now,
-                    Uploader = HttpContext.Current.Request.UserHostAddress
+                    Uploader = HttpContext.Current.Request.UserHostAddress,
+                    Enabled = true
                 };
                 context.Images.Add(image);
                 context.SaveChanges();
@@ -92,25 +93,57 @@ namespace Repositorify.Controllers.Operations
                                 }).ToList();
                 context.ImageTags.AddRange(tagItems);
                 context.SaveChanges();
+
+                return image.Id;
             }
         }
 
-        public bool UploadImage(HttpPostedFileBase file, string tags)
+        private void DisableImage(string imageId)
         {
+            using (RepositorifyEntities context = new RepositorifyEntities())
+            {
+                var image = context.Images.Find(imageId);
+                image.Enabled = false;
+                context.SaveChanges();
+            }
+        }
+
+        private System.Drawing.Image GetThumbnail(Stream stream)
+        {
+            const int THUMBNAIL_WIDTH = 120;
+
+            var image = System.Drawing.Image.FromStream(stream);
+            var height = image.Height;
+            var width = image.Width;
+            var thumbnailHeight = THUMBNAIL_WIDTH * height / width; // Get correct aspect ratio for thumbnail height
+
+            var thumbnail = image.GetThumbnailImage(THUMBNAIL_WIDTH, thumbnailHeight, () => false, IntPtr.Zero);
+            return thumbnail;
+        }
+
+        public bool SaveImage(string serverPath, HttpPostedFileBase file, string tags)
+        {
+            string imageId = "";
             try
             {
+                // Create new tags
                 var tagsList = ConvertTagStringToList(tags);
-
-                // Save new tags
                 CreateNewTags(tagsList);
 
-                // Save image in database
-                var base64 = ConvertStreamToBase64(file.InputStream);
-                CreateImage(base64, tagsList);
+                // Create an entry and save image
+                var imageExtension = Path.GetExtension(file.FileName);
+                imageId = CreateImage(tagsList, file.ContentLength, imageExtension);
+                var imagePath = Path.Combine(serverPath, "Images", imageId + imageExtension);
+                file.SaveAs(imagePath);
 
+                // Create and save thumbnail
+                var thumbnail = GetThumbnail(file.InputStream);
+                var thumbnailPath = Path.Combine(serverPath, "Thumbnails", imageId + imageExtension);
+                thumbnail.Save(thumbnailPath);
             }
             catch (Exception ex)
             {
+                DisableImage(imageId);
                 return false;
             }
             return true;

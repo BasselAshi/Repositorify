@@ -9,17 +9,19 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id" Type="varchar" MaxLength="100" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Uploader" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="DateUploaded" Type="datetime" Nullable="false" />
-          <Property Name="ImageData" Type="varchar(max)" Nullable="false" />
+          <Property Name="Size" Type="int" />
+          <Property Name="Extension" Type="varchar" MaxLength="10" />
+          <Property Name="Enabled" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="ImageTags">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="ImageId" Type="int" Nullable="false" />
+          <Property Name="ImageId" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="TagId" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Tags">
@@ -87,18 +89,20 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Uploader" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="DateUploaded" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="ImageData" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Enabled" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="ImageTags" Relationship="RepositorifyModel.FK_ImageTags_Images" FromRole="Image" ToRole="ImageTag" />
+          <Property Name="Size" Type="Int32" />
+          <Property Name="Extension" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="ImageTag">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ImageId" Type="Int32" Nullable="false" />
+          <Property Name="ImageId" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="TagId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Image" Relationship="RepositorifyModel.FK_ImageTags_Images" FromRole="ImageTag" ToRole="Image" />
           <NavigationProperty Name="Tag" Relationship="RepositorifyModel.FK_ImageTags_Tags" FromRole="ImageTag" ToRole="Tag" />
@@ -107,7 +111,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" annotation:StoreGeneratedPattern="None" />
           <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="ImageTags" Relationship="RepositorifyModel.FK_ImageTags_Tags" FromRole="Tag" ToRole="ImageTag" />
         </EntityType>
@@ -144,7 +148,9 @@
           <EntitySetMapping Name="Images">
             <EntityTypeMapping TypeName="RepositorifyModel.Image">
               <MappingFragment StoreEntitySet="Images">
-                <ScalarProperty Name="ImageData" ColumnName="ImageData" />
+                <ScalarProperty Name="Extension" ColumnName="Extension" />
+                <ScalarProperty Name="Size" ColumnName="Size" />
+                <ScalarProperty Name="Enabled" ColumnName="Enabled" />
                 <ScalarProperty Name="DateUploaded" ColumnName="DateUploaded" />
                 <ScalarProperty Name="Uploader" ColumnName="Uploader" />
                 <ScalarProperty Name="Id" ColumnName="Id" />

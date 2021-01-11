@@ -15,7 +15,7 @@ namespace Repositorify.Models
     public partial class ImageTag
     {
         public int Id { get; set; }
-        public int ImageId { get; set; }
+        public string ImageId { get; set; }
         public string TagId { get; set; }
     
         public virtual Image Image { get; set; }
