@@ -2,7 +2,7 @@
     ViewBag.Title = "Repositorify ~ imagify your life";
 }
 
-<div class="container-md h-100">
+<div class="container h-100">
     <div class="row h-100 align-items-center">
         <div class="col text-center">
             <div class="row">
@@ -13,59 +13,48 @@
                     </h1>
                 </div>
             </div>
-    </div>
-</div>
 
-@*<div class="h-100 row m-0 align-items-center">
-    <div class="col">
-        <div class="row">
-        <div class="col text-center">
-            <h1 class="header">
-                <i class="fas fa-archive"></i>
-                Repositorify
-            </h1>
-        </div>
-    </div>
+            <div class="row mt-2">
+                <div class="col">
+                    <div class="input-group mb-3">
+                        @(Html.Kendo().AutoComplete()
+                            .Name("completeSearch")
+                            .Filter("contains")
+                            .Placeholder("search images by tag... i.e., dark")
+                            .DataSource(source =>
+                            {
+                                source.Read(read =>
+                                {
+                                    read.Action("Tags_Read", "Home");
+                                })
+                                .ServerFiltering(false);
+                            })
+                            .DataTextField("Id")
+                            .HtmlAttributes(new { @class = "form-control" })
+                            .ClearButton(false)
+                        )
+                        <div class="input-group-append">
+                            <button id="btnSearchTag" class="input-group-text bg-warning" onclick="searchTag()">
+                                <i class="fas fa-search mx-3"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-    <div class="row justify-content-center mt-2">
-        <div class="col-lg-4 col-md-8 col-12 text-center">
-            <div class="input-group mb-3">
-                @(Html.Kendo().AutoComplete()
-                      .Name("completeSearch")
-                      .Filter("contains")
-                      .Placeholder("search images by tag... i.e., dark")
-                      .DataSource(source =>
-                      {
-                          source.Read(read =>
-                          {
-                              read.Action("Tags_Read", "Home");
-                          })
-                          .ServerFiltering(false);
-                      })
-                      .DataTextField("Id")
-                      .HtmlAttributes(new { @class = "form-control" })
-                      .ClearButton(false)
-                )
-        <input type="text" class="search form-control" placeholder="search for image by tag..." />
-        <div class="input-group-append">
-                    <button id="btnSearchTag" class="input-group-text bg-warning" onclick="searchTag()">
-                        <i class="fas fa-search mx-3"></i>
-                    </button>
+            <div class="row">
+                <div class="col">
+                    <a href="#upload" data-toggle="modal" data-target="#modalUpload">or click here to upload an image</a>
                 </div>
             </div>
         </div>
     </div>
-
-    <div class="row">
-        <div class="col text-center">
-            <a href="#upload" data-toggle="modal" data-target="#modalUpload">or click here to upload an image</a>
-        </div>
-    </div>
-    </div>
-</div>*@
+</div>
 
 <script>
     $(document).ready(function () {
+        $('.header').fitText(0.6);
+
         var input = document.getElementById("completeSearch");
         input.addEventListener("keyup", function (event) {
             // Number 13 is the "Enter" key on the keyboard

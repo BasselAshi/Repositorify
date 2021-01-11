@@ -7,6 +7,30 @@ body {
     background-position: 50% 0;
 }
 
+@media (min-width: 1200px) {
+    .container {
+        max-width: 600px;
+    }
+}
+
+@media (min-width: 992px) {
+    .container {
+        max-width: 600px;
+    }
+}
+
+@media (min-width: 768px) {
+    .container {
+        max-width: 600px;
+    }
+}
+
+@media (min-width: 576px) {
+    .container {
+        max-width: 540px;
+    }
+}
+
 h1, h2, h3, h4, h5, h6 {
     color: white;
 }
