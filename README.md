@@ -59,7 +59,7 @@ Distributed under the MIT License.
 ## Acknowledgements
 This projects could not have been done without the following JavaScript libraries
 * [Font Awesome](http://fontawesome.com/) for the icons
-* [Splide](https://splidejs.com/) for the image sliders
+* [Slick](https://kenwheeler.github.io/slick/) for the image sliders
 * [Sweet Alert](https://sweetalert2.github.io/) for the beautiful popup alerts
 * [Notiflix](https://www.notiflix.com/) for the spinner
 * [FitText](https://github.com/davatron5000/FitText.js)
