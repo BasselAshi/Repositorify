@@ -19,5 +19,6 @@ namespace Repositorify.Models
         public string TagId { get; set; }
         public string ImageLink { get; set; }
         public string ThumbnailLink { get; set; }
+        public string Tag { get; set; }
     }
 }

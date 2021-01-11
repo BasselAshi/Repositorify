@@ -160,7 +160,8 @@ namespace Repositorify.Controllers.Operations
                 }
 
                 var imageModels = (from i in context.vw_Images
-                                   group i.TagId by new { i.ImageLink, i.ThumbnailLink } into g
+                                   where i.TagId.Equals(tag)
+                                   group i.Tag by new { i.ImageLink, i.ThumbnailLink } into g
                                    select new ImageViewModel {
                                        Image = g.Key.ImageLink,
                                        Thumbnail = g.Key.ThumbnailLink,

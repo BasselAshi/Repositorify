@@ -41,10 +41,11 @@ warning 6002: The table/view 'Repositorify.utscrepc.vw_Images' does not have a p
             <PropertyRef Name="TagId" />
           </Key>
           <Property Name="ImageId" Type="varchar" MaxLength="100" Nullable="false" />
-          <Property Name="ImageLink" Type="varchar" MaxLength="127" Nullable="false" />
-          <Property Name="ThumbnailLink" Type="varchar" MaxLength="131" Nullable="false" />
+          <Property Name="ImageLink" Type="varchar" MaxLength="126" Nullable="false" />
+          <Property Name="ThumbnailLink" Type="varchar" MaxLength="130" Nullable="false" />
           <Property Name="DateUploaded" Type="datetime" />
           <Property Name="TagId" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Tag" Type="varchar" MaxLength="50" />
         </EntityType>
         <Association Name="FK_ImageTags_Images">
           <End Role="Images" Type="Self.Images" Multiplicity="1" />
@@ -80,7 +81,8 @@ warning 6002: The table/view 'Repositorify.utscrepc.vw_Images' does not have a p
     [vw_Images].[ImageLink] AS [ImageLink], 
     [vw_Images].[ThumbnailLink] AS [ThumbnailLink], 
     [vw_Images].[DateUploaded] AS [DateUploaded], 
-    [vw_Images].[TagId] AS [TagId]
+    [vw_Images].[TagId] AS [TagId], 
+    [vw_Images].[Tag] AS [Tag]
     FROM [utscrepc].[vw_Images] AS [vw_Images]</DefiningQuery>
           </EntitySet>
           <AssociationSet Name="FK_ImageTags_Images" Association="Self.FK_ImageTags_Images">
@@ -174,8 +176,9 @@ warning 6002: The table/view 'Repositorify.utscrepc.vw_Images' does not have a p
           <Property Name="ImageId" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="DateUploaded" Type="DateTime" Precision="3" />
           <Property Name="TagId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ImageLink" Type="String" Nullable="false" MaxLength="127" FixedLength="false" Unicode="false" />
-          <Property Name="ThumbnailLink" Type="String" Nullable="false" MaxLength="131" FixedLength="false" Unicode="false" />
+          <Property Name="ImageLink" Type="String" Nullable="false" MaxLength="126" FixedLength="false" Unicode="false" />
+          <Property Name="ThumbnailLink" Type="String" Nullable="false" MaxLength="130" FixedLength="false" Unicode="false" />
+          <Property Name="Tag" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -215,6 +218,7 @@ warning 6002: The table/view 'Repositorify.utscrepc.vw_Images' does not have a p
           <EntitySetMapping Name="vw_Images">
             <EntityTypeMapping TypeName="RepositorifyModel.vw_Images">
               <MappingFragment StoreEntitySet="vw_Images">
+                <ScalarProperty Name="Tag" ColumnName="Tag" />
                 <ScalarProperty Name="ThumbnailLink" ColumnName="ThumbnailLink" />
                 <ScalarProperty Name="ImageLink" ColumnName="ImageLink" />
                 <ScalarProperty Name="TagId" ColumnName="TagId" />
