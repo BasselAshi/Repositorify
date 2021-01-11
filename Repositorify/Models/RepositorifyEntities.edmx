@@ -31,6 +31,21 @@
           <Property Name="Id" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="DateCreated" Type="datetime" Nullable="false" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Repositorify.utscrepc.vw_Images' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_Images">
+          <Key>
+            <PropertyRef Name="ImageId" />
+            <PropertyRef Name="ImageLink" />
+            <PropertyRef Name="ThumbnailLink" />
+            <PropertyRef Name="TagId" />
+          </Key>
+          <Property Name="ImageId" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="ImageLink" Type="varchar" MaxLength="127" Nullable="false" />
+          <Property Name="ThumbnailLink" Type="varchar" MaxLength="131" Nullable="false" />
+          <Property Name="DateUploaded" Type="datetime" />
+          <Property Name="TagId" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
         <Association Name="FK_ImageTags_Images">
           <End Role="Images" Type="Self.Images" Multiplicity="1" />
           <End Role="ImageTags" Type="Self.ImageTags" Multiplicity="*" />
@@ -59,6 +74,15 @@
           <EntitySet Name="Images" EntityType="Self.Images" Schema="utscrepc" store:Type="Tables" />
           <EntitySet Name="ImageTags" EntityType="Self.ImageTags" Schema="utscrepc" store:Type="Tables" />
           <EntitySet Name="Tags" EntityType="Self.Tags" Schema="utscrepc" store:Type="Tables" />
+          <EntitySet Name="vw_Images" EntityType="Self.vw_Images" store:Type="Views" store:Schema="utscrepc">
+            <DefiningQuery>SELECT 
+    [vw_Images].[ImageId] AS [ImageId], 
+    [vw_Images].[ImageLink] AS [ImageLink], 
+    [vw_Images].[ThumbnailLink] AS [ThumbnailLink], 
+    [vw_Images].[DateUploaded] AS [DateUploaded], 
+    [vw_Images].[TagId] AS [TagId]
+    FROM [utscrepc].[vw_Images] AS [vw_Images]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_ImageTags_Images" Association="Self.FK_ImageTags_Images">
             <End Role="Images" EntitySet="Images" />
             <End Role="ImageTags" EntitySet="ImageTags" />
@@ -84,6 +108,7 @@
             <End Role="Tag" EntitySet="Tags" />
             <End Role="ImageTag" EntitySet="ImageTags" />
           </AssociationSet>
+          <EntitySet Name="vw_Images" EntityType="RepositorifyModel.vw_Images" />
         </EntityContainer>
         <EntityType Name="Image">
           <Key>
@@ -139,6 +164,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="vw_Images">
+          <Key>
+            <PropertyRef Name="ImageId" />
+            <PropertyRef Name="TagId" />
+            <PropertyRef Name="ImageLink" />
+            <PropertyRef Name="ThumbnailLink" />
+          </Key>
+          <Property Name="ImageId" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="DateUploaded" Type="DateTime" Precision="3" />
+          <Property Name="TagId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ImageLink" Type="String" Nullable="false" MaxLength="127" FixedLength="false" Unicode="false" />
+          <Property Name="ThumbnailLink" Type="String" Nullable="false" MaxLength="131" FixedLength="false" Unicode="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -171,6 +209,17 @@
               <MappingFragment StoreEntitySet="Tags">
                 <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_Images">
+            <EntityTypeMapping TypeName="RepositorifyModel.vw_Images">
+              <MappingFragment StoreEntitySet="vw_Images">
+                <ScalarProperty Name="ThumbnailLink" ColumnName="ThumbnailLink" />
+                <ScalarProperty Name="ImageLink" ColumnName="ImageLink" />
+                <ScalarProperty Name="TagId" ColumnName="TagId" />
+                <ScalarProperty Name="DateUploaded" ColumnName="DateUploaded" />
+                <ScalarProperty Name="ImageId" ColumnName="ImageId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

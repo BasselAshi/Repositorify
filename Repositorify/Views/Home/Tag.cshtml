@@ -1,14 +1,21 @@
-﻿@model List<Repositorify.Models.Image>
+﻿@model List<Repositorify.Models.ViewModels.ImageViewModel>
 
 @{
     ViewBag.Title = "Repositorify ~ Tag";
 }
 
-@if (Model.Count == 0)
-{
-    <div class="container h-100">
-        <div class="row h-100 align-items-center">
-            <div class="col text-center">
+@{ 
+    var containerClass = "container";
+    if (Model != null && Model.Count > 0)
+    {
+        containerClass = "container-md";
+    }
+} 
+<div class="@containerClass h-100">
+    <div class="row h-100 align-items-center">
+        <div class="col text-center">
+            @if (Model == null || Model.Count == 0)
+            {
                 <div class="row">
                     <div class="col">
                         <h1 class="header">
@@ -26,74 +33,106 @@
                         </a>
                     </div>
                 </div>
-            </div>
+
+                <script>
+                    $(document).ready(function () {
+                        $('.header').fitText(0.6);
+                    });
+                </script>
+            }
+            else
+            {
+                <div class="card text-white bg-custom">
+                    <div class="card-header">
+                        <a href="/" class="header" style="font-size: 50px;">
+                            <i class="fas fa-archive"></i>
+                            Repositorify
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            @foreach (var image in Model)
+                            {
+                                <div class="col-lg-2 col-md-4">
+                                    <div class="card text-white bg-light mb-3" style="max-width: 128px;">
+                                        <div class="card-img-container">
+                                            <img src="@image.Thumbnail" class="card-img-top" />
+                                        </div>
+                                        <div class="card-body">
+                                            @foreach (var tag in image.Tags)
+                                            {
+                                                <a href="/Home/Tag/@tag">
+                                                    <span class="badge badge-pill badge-dark py-1">@tag</span>
+                                                </a>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+        
+                
+
+                @*<div id="primary-slider" class="splide">
+                        <div class="splide__track">
+                            <ul class="splide__list">
+                                @foreach (var image in Model)
+                                {
+                                    <li class="splide__slide">
+                                        <img class="image" src="~/Uploads/Images/@image.Id@image.Extension" />
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                    <div id="secondary-slider" class="splide">
+                        <div class="splide__track">
+                            <ul class="splide__list">
+                                @foreach (var image in Model)
+                                {
+                                    <li class="splide__slide">
+                                        <img src="~/Uploads/Thumbnails/@image.Id@image.Extension" />
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+
+                    <script>
+                        $(document).ready(function () {
+                            var secondarySlider = new Splide('#secondary-slider', {
+                                rewind: true,
+                                fixedWidth: 100,
+                                fixedHeight: 64,
+                                isNavigation: true,
+                                gap: 10,
+                                focus: 'center',
+                                pagination: false,
+                                cover: true,
+                                breakpoints: {
+                                    '600': {
+                                        fixedWidth: 66,
+                                        fixedHeight: 40,
+                                    }
+                                }
+                            }).mount();
+
+                            // Create the main slider.
+                            var primarySlider = new Splide('#primary-slider', {
+                                type: 'fade',
+                                heightRatio: 0.5,
+                                pagination: false,
+                                arrows: false,
+                                cover: true,
+                            });
+
+                            // Set the thumbnails slider as a sync target and then call mount.
+                            primarySlider.sync(secondarySlider).mount();
+                        });
+                    </script>*@
+            }
         </div>
     </div>
-
-    <script>
-        $(document).ready(function () {
-            $('.header').fitText(0.6);
-        });
-    </script>
-    }
-
-    @if (Model.Count > 0)
-    {
-        <div id="primary-slider" class="splide">
-            <div class="splide__track">
-                <ul class="splide__list">
-                    @foreach (var image in Model)
-                    {
-                        <li class="splide__slide">
-                            <img class="image" src="~/Uploads/Images/@image.Id@image.Extension" />
-                        </li>
-                    }
-                </ul>
-            </div>
-        </div>
-        <div id="secondary-slider" class="splide">
-            <div class="splide__track">
-                <ul class="splide__list">
-                    @foreach (var image in Model)
-                    {
-                        <li class="splide__slide">
-                            <img src="~/Uploads/Thumbnails/@image.Id@image.Extension" />
-                        </li>
-                    }
-                </ul>
-            </div>
-        </div>
-
-        <script>
-            $(document).ready(function () {
-                var secondarySlider = new Splide('#secondary-slider', {
-                    rewind: true,
-                    fixedWidth: 100,
-                    fixedHeight: 64,
-                    isNavigation: true,
-                    gap: 10,
-                    focus: 'center',
-                    pagination: false,
-                    cover: true,
-                    breakpoints: {
-                        '600': {
-                            fixedWidth: 66,
-                            fixedHeight: 40,
-                        }
-                    }
-                }).mount();
-
-                // Create the main slider.
-                var primarySlider = new Splide('#primary-slider', {
-                    type: 'fade',
-                    heightRatio: 0.5,
-                    pagination: false,
-                    arrows: false,
-                    cover: true,
-                });
-
-                // Set the thumbnails slider as a sync target and then call mount.
-                primarySlider.sync(secondarySlider).mount();
-            });
-        </script>
-    }
+</div>

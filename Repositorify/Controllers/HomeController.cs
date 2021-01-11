@@ -19,7 +19,7 @@ namespace Repositorify.Controllers
 
         public ActionResult Tag(string id)
         {
-            var images = Service.GetImages(id);
+            var images = Service.GetImageViewModels(id);
             return View(images);
         }
 

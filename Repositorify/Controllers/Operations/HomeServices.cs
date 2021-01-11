@@ -110,14 +110,14 @@ namespace Repositorify.Controllers.Operations
 
         private System.Drawing.Image GetThumbnail(Stream stream)
         {
-            const int THUMBNAIL_WIDTH = 120;
+            const int THUMBNAIL_HEIGHT = 128;
 
             var image = System.Drawing.Image.FromStream(stream);
             var height = image.Height;
             var width = image.Width;
-            var thumbnailHeight = THUMBNAIL_WIDTH * height / width; // Get correct aspect ratio for thumbnail height
+            var thumbnailWidth = THUMBNAIL_HEIGHT * width / height; // Get correct aspect ratio for thumbnail width
 
-            var thumbnail = image.GetThumbnailImage(THUMBNAIL_WIDTH, thumbnailHeight, () => false, IntPtr.Zero);
+            var thumbnail = image.GetThumbnailImage(thumbnailWidth, THUMBNAIL_HEIGHT, () => false, IntPtr.Zero);
             return thumbnail;
         }
 
@@ -148,13 +148,26 @@ namespace Repositorify.Controllers.Operations
             }
             return true;
         }
-        public List<Image> GetImages(string tag)
+        public List<ImageViewModel> GetImageViewModels(string tag)
         {
             using (RepositorifyEntities context = new RepositorifyEntities())
             {
                 var contextTag = context.Tags.Find(tag);
-                var images = context.ImageTags.Where(i => i.TagId.Equals(tag)).Select(i => i.Image).ToList();
-                return images;
+                
+                if (contextTag == null)
+                {
+                    return null;
+                }
+
+                var imageModels = (from i in context.vw_Images
+                                   group i.TagId by new { i.ImageLink, i.ThumbnailLink } into g
+                                   select new ImageViewModel {
+                                       Image = g.Key.ImageLink,
+                                       Thumbnail = g.Key.ThumbnailLink,
+                                       Tags = g.ToList()
+                                   }).ToList();
+
+                return imageModels;
             }
         }
     }

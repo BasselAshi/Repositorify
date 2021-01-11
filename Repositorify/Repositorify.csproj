@@ -220,6 +220,9 @@
       <DependentUpon>RepositorifyEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ViewModels.cs" />
+    <Compile Include="Models\vw_Images.cs">
+      <DependentUpon>RepositorifyEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -230,6 +233,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Images\background.jpg" />
+    <Content Include="Content\Images\transparent.png" />
     <Content Include="Content\notiflix.css" />
     <Content Include="Content\splide.min.css" />
     <Content Include="Scripts\jquery.fittext.js" />

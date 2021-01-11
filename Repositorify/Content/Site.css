@@ -55,3 +55,23 @@ a, a:hover {
 .k-action-buttons {
     display: none;
 }
+
+.card-img-container {
+    background-image: url('/Content/Images/transparent.png');
+    height: 128px !important;
+    width: 128px !important;
+}
+
+.card-img-top {
+    max-height: 100% !important;
+    max-width: 100% !important;
+    position: relative !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%,-50%) !important;
+}
+
+.bg-custom {
+    background-image: linear-gradient(#595037, #3e2f09);
+    box-shadow: 0px 0px 57px #0d0c0c;
+}
