@@ -402,11 +402,11 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Home\Modals\UploadModal.cshtml" />
     <Content Include="Views\Home\Tag.cshtml" />
+    <Content Include="Uploads\Images\README.md" />
+    <Content Include="Uploads\Thumbnails\README.md" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Uploads\Images\" />
-    <Folder Include="Uploads\Thumbnails\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
