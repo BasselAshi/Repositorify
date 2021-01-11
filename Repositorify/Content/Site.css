@@ -59,7 +59,7 @@ a, a:hover {
 .card-img-container {
     background-image: url('/Content/Images/transparent.png');
     height: 128px !important;
-    width: 128px !important;
+    /*width: 128px !important;*/
 }
 
 .card-img-top {
@@ -71,7 +71,42 @@ a, a:hover {
     transform: translate(-50%,-50%) !important;
 }
 
+.card-center {
+    left: 50%;
+    transform: translateX(-50%);
+}
+
 .bg-custom {
     background-image: linear-gradient(#595037, #3e2f09);
     box-shadow: 0px 0px 57px #0d0c0c;
+}
+
+.img {
+    opacity: 1;
+    transition: .5s ease;
+    backface-visibility: hidden;
+}
+
+.overlay {
+    transition: .5s ease;
+    opacity: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.img-container {
+    position: relative;
+    width: 50%;
+}
+
+.img-container:hover .img {
+    opacity: 0.3;
+}
+
+.img-container:hover .overlay {
+    opacity: 1;
 }
