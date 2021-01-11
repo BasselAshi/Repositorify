@@ -62,3 +62,4 @@ This projects could not have been done without the following JavaScript librarie
 * [Splide](https://splidejs.com/) for the image sliders
 * [Sweet Alert](https://sweetalert2.github.io/) for the beautiful popup alerts
 * [Notiflix](https://www.notiflix.com/) for the spinner
+* [FitText](https://github.com/davatron5000/FitText.js)
