@@ -54,7 +54,7 @@ namespace Repositorify.Controllers
             
             var serverPath = Server.MapPath("~/Uploads");
             var success = Service.SaveImage(serverPath, uploadImage, tags);
-            return Content(success ? "0" : "-3");
+            return Content(success.Equals("") ? "0" : success);
         }
     }
 }

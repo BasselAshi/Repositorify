@@ -121,7 +121,7 @@ namespace Repositorify.Controllers.Operations
             return thumbnail;
         }
 
-        public bool SaveImage(string serverPath, HttpPostedFileBase file, string tags)
+        public string SaveImage(string serverPath, HttpPostedFileBase file, string tags)
         {
             string imageId = "";
             try
@@ -144,9 +144,9 @@ namespace Repositorify.Controllers.Operations
             catch (Exception ex)
             {
                 DisableImage(imageId);
-                return false;
+                return ex.Message;
             }
-            return true;
+            return "";
         }
         public List<ImageViewModel> GetImageViewModels(string tag)
         {

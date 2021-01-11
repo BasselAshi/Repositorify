@@ -53,6 +53,12 @@
 
 <script>
     $(document).ready(function () {
+        Swal.fire({
+            icon: 'info',
+            title: 'Oops...',
+            text: 'Please note that I am waiting on my web hosting to provide my server permissions to write on disk. For the time being, uploading files does not work! Sorry :('
+        })
+
         $('.header').fitText(0.6);
 
         var input = document.getElementById("completeSearch");
