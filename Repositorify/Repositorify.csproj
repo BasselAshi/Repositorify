@@ -232,6 +232,7 @@
     <Content Include="Content\Images\background.jpg" />
     <Content Include="Content\notiflix.css" />
     <Content Include="Content\splide.min.css" />
+    <Content Include="Scripts\jquery.fittext.js" />
     <Content Include="Scripts\kendo.modernizr.custom.js" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />

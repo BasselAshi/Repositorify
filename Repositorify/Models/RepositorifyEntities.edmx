@@ -54,9 +54,9 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="RepositorifyModelStoreContainer">
-          <EntitySet Name="Images" EntityType="Self.Images" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="ImageTags" EntityType="Self.ImageTags" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Tags" EntityType="Self.Tags" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Images" EntityType="Self.Images" Schema="utscrepc" store:Type="Tables" />
+          <EntitySet Name="ImageTags" EntityType="Self.ImageTags" Schema="utscrepc" store:Type="Tables" />
+          <EntitySet Name="Tags" EntityType="Self.Tags" Schema="utscrepc" store:Type="Tables" />
           <AssociationSet Name="FK_ImageTags_Images" Association="Self.FK_ImageTags_Images">
             <End Role="Images" EntitySet="Images" />
             <End Role="ImageTags" EntitySet="ImageTags" />
@@ -70,49 +70,19 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="RepositorifyModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="Tag">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="ImageTags" Relationship="RepositorifyModel.FK_ImageTags_Tags" FromRole="Tag" ToRole="ImageTag" />
-        </EntityType>
         <EntityContainer Name="RepositorifyEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Tags" EntityType="Self.Tag" />
-          <EntitySet Name="ImageTags" EntityType="RepositorifyModel.ImageTag" />
-          <AssociationSet Name="FK_ImageTags_Tags" Association="RepositorifyModel.FK_ImageTags_Tags">
-            <End Role="Tag" EntitySet="Tags" />
-            <End Role="ImageTag" EntitySet="ImageTags" />
-          </AssociationSet>
           <EntitySet Name="Images" EntityType="RepositorifyModel.Image" />
+          <EntitySet Name="ImageTags" EntityType="RepositorifyModel.ImageTag" />
+          <EntitySet Name="Tags" EntityType="RepositorifyModel.Tag" />
           <AssociationSet Name="FK_ImageTags_Images" Association="RepositorifyModel.FK_ImageTags_Images">
             <End Role="Image" EntitySet="Images" />
             <End Role="ImageTag" EntitySet="ImageTags" />
           </AssociationSet>
+          <AssociationSet Name="FK_ImageTags_Tags" Association="RepositorifyModel.FK_ImageTags_Tags">
+            <End Role="Tag" EntitySet="Tags" />
+            <End Role="ImageTag" EntitySet="ImageTags" />
+          </AssociationSet>
         </EntityContainer>
-        <EntityType Name="ImageTag">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ImageId" Type="Int32" Nullable="false" />
-          <Property Name="TagId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Tag" Relationship="RepositorifyModel.FK_ImageTags_Tags" FromRole="ImageTag" ToRole="Tag" />
-          <NavigationProperty Name="Image" Relationship="RepositorifyModel.FK_ImageTags_Images" FromRole="ImageTag" ToRole="Image" />
-        </EntityType>
-        <Association Name="FK_ImageTags_Tags">
-          <End Type="RepositorifyModel.Tag" Role="Tag" Multiplicity="1" />
-          <End Type="RepositorifyModel.ImageTag" Role="ImageTag" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Tag">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ImageTag">
-              <PropertyRef Name="TagId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="Image">
           <Key>
             <PropertyRef Name="Id" />
@@ -122,6 +92,24 @@
           <Property Name="DateUploaded" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="ImageData" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="ImageTags" Relationship="RepositorifyModel.FK_ImageTags_Images" FromRole="Image" ToRole="ImageTag" />
+        </EntityType>
+        <EntityType Name="ImageTag">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ImageId" Type="Int32" Nullable="false" />
+          <Property Name="TagId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Image" Relationship="RepositorifyModel.FK_ImageTags_Images" FromRole="ImageTag" ToRole="Image" />
+          <NavigationProperty Name="Tag" Relationship="RepositorifyModel.FK_ImageTags_Tags" FromRole="ImageTag" ToRole="Tag" />
+        </EntityType>
+        <EntityType Name="Tag">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="ImageTags" Relationship="RepositorifyModel.FK_ImageTags_Tags" FromRole="Tag" ToRole="ImageTag" />
         </EntityType>
         <Association Name="FK_ImageTags_Images">
           <End Type="RepositorifyModel.Image" Role="Image" Multiplicity="1" />
@@ -135,17 +123,31 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        <Association Name="FK_ImageTags_Tags">
+          <End Type="RepositorifyModel.Tag" Role="Tag" Multiplicity="1" />
+          <End Type="RepositorifyModel.ImageTag" Role="ImageTag" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tag">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ImageTag">
+              <PropertyRef Name="TagId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="RepositorifyModelStoreContainer" CdmEntityContainer="RepositorifyEntities">
-          <EntitySetMapping Name="Tags">
-            <EntityTypeMapping TypeName="RepositorifyModel.Tag">
-              <MappingFragment StoreEntitySet="Tags">
+          <EntitySetMapping Name="Images">
+            <EntityTypeMapping TypeName="RepositorifyModel.Image">
+              <MappingFragment StoreEntitySet="Images">
+                <ScalarProperty Name="ImageData" ColumnName="ImageData" />
+                <ScalarProperty Name="DateUploaded" ColumnName="DateUploaded" />
+                <ScalarProperty Name="Uploader" ColumnName="Uploader" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -158,12 +160,10 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Images">
-            <EntityTypeMapping TypeName="RepositorifyModel.Image">
-              <MappingFragment StoreEntitySet="Images">
-                <ScalarProperty Name="ImageData" ColumnName="ImageData" />
-                <ScalarProperty Name="DateUploaded" ColumnName="DateUploaded" />
-                <ScalarProperty Name="Uploader" ColumnName="Uploader" />
+          <EntitySetMapping Name="Tags">
+            <EntityTypeMapping TypeName="RepositorifyModel.Tag">
+              <MappingFragment StoreEntitySet="Tags">
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
