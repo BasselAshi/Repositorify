@@ -110,3 +110,12 @@ a, a:hover {
 .img-container:hover .overlay {
     opacity: 1;
 }
+
+.tag {
+    cursor: pointer;
+    transition: all 0.15s ease-in;
+}
+
+.tag:hover {
+    transform: scale(1.1);
+}

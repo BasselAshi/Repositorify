@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 using static Repositorify.Models.ViewModels;
 
@@ -23,17 +24,6 @@ namespace Repositorify.Controllers.Operations
             }
         }
 
-        private List<string> ConvertTagStringToList(string tags)
-        {
-            if (string.IsNullOrEmpty(tags))
-            {
-                return null;
-            }
-
-            var tagsList = tags.ToLower().Split(new string[] { ", " }, StringSplitOptions.None).Distinct().ToList();
-            return tagsList;
-        }
-
         public void CreateNewTags(List<string> tags)
         {
             using (RepositorifyEntities context = new RepositorifyEntities())
@@ -50,24 +40,6 @@ namespace Repositorify.Controllers.Operations
                 context.SaveChanges();
             }
         }
-
-        //private string ConvertStreamToBase64(Stream stream)
-        //{
-        //    byte[] data;
-        //    using (Stream inputStream = stream)
-        //    {
-        //        MemoryStream memoryStream = inputStream as MemoryStream;
-        //        if (memoryStream == null)
-        //        {
-        //            memoryStream = new MemoryStream();
-        //            inputStream.CopyTo(memoryStream);
-        //        }
-        //        data = memoryStream.ToArray();
-        //        var b64 = Convert.ToBase64String(data);
-
-        //        return b64;
-        //    }
-        //}
 
         public string CreateImage(List<string> tags, int sizeBytes, string extension)
         {
@@ -121,18 +93,17 @@ namespace Repositorify.Controllers.Operations
             return thumbnail;
         }
 
-        public string SaveImage(string serverPath, HttpPostedFileBase file, string tags)
+        public string SaveImage(string serverPath, HttpPostedFileBase file, List<string> tags)
         {
             string imageId = "";
             try
             {
                 // Create new tags
-                var tagsList = ConvertTagStringToList(tags);
-                CreateNewTags(tagsList);
+                CreateNewTags(tags);
 
                 // Create an entry and save image
                 var imageExtension = Path.GetExtension(file.FileName);
-                imageId = CreateImage(tagsList, file.ContentLength, imageExtension);
+                imageId = CreateImage(tags, file.ContentLength, imageExtension);
                 var imagePath = Path.Combine(serverPath, "Images", imageId + imageExtension);
                 file.SaveAs(imagePath);
 
@@ -170,6 +141,13 @@ namespace Repositorify.Controllers.Operations
 
                 return imageModels;
             }
+        }
+
+        public List<string> ConvertStringTags(string tags)
+        {
+            var tagsStripped = Regex.Replace(tags, @"\s+", "");
+            var tagsList = tagsStripped.Split(',').ToList();
+            return tagsList;
         }
     }
 }

@@ -9,7 +9,7 @@
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label>Select an Image: <span class="badge badge-danger">Supported formats are <b>jpg, jpeg, png, gif with 16MB upload limit</b></span></label>
+                    <label>Select an Image: <span class="text-danger">*</span><span class="badge badge-danger">Supported formats are <b>jpg, jpeg, png, gif with 16MB upload limit</b></span></label>
                     @(Html.Kendo().Upload()
                         .Name("uploadImage")
                         .Async(a => a
@@ -18,40 +18,60 @@
                             .Batch(false)
                         )
                         .Multiple(false)
-                        .Events(e => e.Upload("onImageUpload").Success("onImageSuccess").Progress("onImageProgress").Error("onImageError"))
+                        .Events(e => e.Upload("onImageUpload").Success("onImageSuccess").Progress("onImageProgress").Error("onImageError").Select("onImageSelect"))
                     )
                 </div>
 
                 <div class="form-group">
-                    <label>Enter image tags: <span class="badge badge-warning">Use ', ' to separate between tags</span></label>
-                    @(Html.Kendo().AutoComplete()
-                          .Name("completeTags")
-                          .Filter("contains")
-                          .Placeholder("enter tag name...")
-                          .DataSource(source =>
-                          {
-                              source.Read(read =>
+                    <label>Enter image tags: <span class="text-danger">*</span><span class="ml-2 badge badge-success">Insert at least one tag</span></label>
+                    <div class="input-group mb-1">
+                        @(Html.Kendo().AutoComplete()
+                              .Name("completeTags")
+                              .Filter("contains")
+                              .Placeholder("enter tag name...")
+                              .DataSource(source =>
                               {
-                                  read.Action("Tags_Read", "Home");
+                                  source.Read(read =>
+                                  {
+                                      read.Action("Tags_Read", "Home");
+                                  })
+                                  .ServerFiltering(false);
                               })
-                              .ServerFiltering(false);
-                          })
-                          .DataTextField("Id")
-                          .HtmlAttributes(new { @class = "form-control" })
-                          .Separator(", ")
-                          .ClearButton(false)
-                    )
+                              .DataTextField("Id")
+                              .HtmlAttributes(new { @class = "form-control", @pattern = "[A-Za-z]" })
+                              .ClearButton(false)
+                        )
+                        <div class="input-group-append">
+                            <button id="btnAddTag" class="input-group-text btn btn-dark" onclick="addTag()">
+                                <i class="fas fa-plus mx-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div id="divTags"></div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button onclick="uploadImage()" type="button" class="btn btn-primary">Upload</button>
+                <div class="modal-footer p-0 pt-2">
+                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+                    <button onclick="uploadImage()" type="button" class="btn btn-primary">Upload</button>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
 <script>
+    $(document).ready(function () {
+        var input = document.getElementById("completeTags");
+        input.addEventListener("keyup", function (event) {
+            // Number 13 is the "Enter" key on the keyboard
+            if (event.keyCode === 13) {
+                // Cancel the default action, if needed
+                event.preventDefault();
+                // Trigger the button element with a click
+                document.getElementById("btnAddTag").click();
+            }
+        });
+    });
+
     function onImageUpload(e) {
         Notiflix.Loading.Dots('Uploading...');
 
@@ -76,13 +96,34 @@
             })
         }
 
+        let tags = $("#divTags").children().map(function (i, e) {
+            return e.innerText
+        }).get();
+
         e.data = {
-            tags: $("#completeTags").val()
+            tags: tags
         };
+        console.log(e);
     }
 
     function uploadImage() {
-        $("#uploadImage").data("kendoUpload").upload();
+        let $uploadImage = $("#uploadImage").data("kendoUpload")
+        let numFiles = $uploadImage.wrapper.find(".k-file").length
+        let $uploadContainer = $(".k-widget.k-upload.k-upload-async.k-upload-empty");
+        let $divTags = $("#divTags");
+        let $btnAddTag = $("#btnAddTag");
+
+        if (numFiles == 0) {
+            $uploadContainer.addClass("border-danger");
+            $btnAddTag.removeClass("border-danger");
+        } else if ($divTags.children().length == 0) {
+            $btnAddTag.addClass("border-danger");
+        } else {
+            // Upload validation
+            $uploadImage.upload();
+            $uploadContainer.removeClass("border-danger");
+            $btnAddTag.removeClass("border-danger");
+        }
     }
 
     function onImageSuccess(e) {
@@ -130,5 +171,31 @@
             title: 'Unexpected Error',
             text: 'Please try again. If this issue persists, use a different file'
         })
+    }
+
+    function addTag() {
+        let searchValue = $("#completeTags").val();
+        if (searchValue.length == 0) {
+            $("#completeTags").addClass("border-danger");
+        } else {
+            // Add tag
+
+            $("#btnAddTag").removeClass("border-danger");
+            $("#completeTags").removeClass("border-danger");
+            $("#completeTags").val("");
+
+            $("#divTags").append(`<span onclick='removeTag(this)' class="tag badge badge-warning mr-2">
+                                    ${searchValue}
+                                    <i class="fas fa-times-circle text-danger"></i>
+                                  </span>`);
+        }
+    }
+
+    function removeTag(el) {
+        $(el).remove();
+    }
+
+    function onImageSelect() {
+        $(".k-widget.k-upload.k-upload-async.k-upload-empty").removeClass("border-danger");
     }
 </script>
