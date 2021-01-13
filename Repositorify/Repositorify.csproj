@@ -233,7 +233,11 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Images\background.jpg" />
+    <Content Include="Content\Images\loading.gif" />
     <Content Include="Content\Images\transparent.png" />
+    <Content Include="Content\Images\video-play.png" />
+    <Content Include="Content\Images\vimeo-play.png" />
+    <Content Include="Content\Images\youtube-play.png" />
     <Content Include="Content\lightgallery.css" />
     <Content Include="Content\notiflix.css" />
     <Content Include="fonts\lg.svg" />
