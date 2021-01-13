@@ -1,6 +1,6 @@
 <!-- PROJECT LOGO -->
 <p align="center">
-    <img src="./docs/images/logo.png" alt="Logo" />
+    <img width="500" src="./docs/images/logo.png" alt="Logo" />
     <br />
     <b>for a demo, go to <a target="_blank" href="https://repositorify.ga/">https://repositorify.ga/</a></b>
 </p
@@ -28,7 +28,7 @@ The first version of Repositorify took me less than 12 hours of development. The
 * Run the application
 
 ### Prerequisites
-The following prerequisites are based on the versions available in November 2021
+The following prerequisites are based on the versions available in January 2021
 *  Microsoft SQL Server
 * Microsoft SQL Management Studio
 * Visual Studio with ASP.NET
