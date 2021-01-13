@@ -82,14 +82,19 @@ namespace Repositorify.Controllers.Operations
 
         private System.Drawing.Image GetThumbnail(Stream stream)
         {
-            const int THUMBNAIL_HEIGHT = 128;
+            const int MAX_DIMENSION = 128;
 
             var image = System.Drawing.Image.FromStream(stream);
-            var height = image.Height;
-            var width = image.Width;
-            var thumbnailWidth = THUMBNAIL_HEIGHT * width / height; // Get correct aspect ratio for thumbnail width
-
-            var thumbnail = image.GetThumbnailImage(thumbnailWidth, THUMBNAIL_HEIGHT, () => false, IntPtr.Zero);
+            int thumbnailWidth = MAX_DIMENSION;
+            int thumbnailHeight = MAX_DIMENSION;
+            if (image.Height > image.Width)
+            {
+                thumbnailWidth = thumbnailHeight * image.Width / image.Height; // Maintain aspect ratio
+            } else
+            {
+                thumbnailHeight = thumbnailWidth * image.Height / image.Width; // Maintain aspect ratio
+            }
+            var thumbnail = image.GetThumbnailImage(thumbnailWidth, thumbnailHeight, () => false, IntPtr.Zero);
             return thumbnail;
         }
 
