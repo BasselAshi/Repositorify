@@ -2,7 +2,7 @@
 <p align="center">
     <img src="./docs/images/logo.png" alt="Logo" />
     <br />
-    <b>for a demo, go to <a href="https://repositorify.ga/">https://repositorify.ga/</a></b>
+    <b>for a demo, go to <a target="_blank" href="https://repositorify.ga/">https://repositorify.ga/</a></b>
 </p
 
 <!-- ABOUT THE PROJECT -->
